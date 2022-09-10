@@ -9,10 +9,7 @@ jobs:
     timeout-minutes: 9999
 
     steps:
-    - name: Download Ngrok & NSSM
-      run: |
-        Invoke-WebRequest https://raw.githubusercontent.com/dicky-alfansyah/RDP/main/ngrok.exe -OutFile ngrok.exe
-        Invoke-WebRequest https://raw.githubusercontent.com/dicky-alfansyah/RDP/main/nssm.exe -OutFile nssm.exe
+    - uses: actions/checkout@v2
     - name: Copy NSSM & Ngrok to Windows Directory.
       run: | 
         copy nssm.exe C:\Windows\System32
@@ -21,13 +18,8 @@ jobs:
       run: .\ngrok.exe authtoken $Env:NGROK_AUTH_TOKEN
       env:
         NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
-    - name: Download Important Files.
-      run: |
-        Invoke-WebRequest https://raw.githubusercontent.com/dicky-alfansyah/RDP/main/NGROK-US.bat -OutFile NGROK-US.bat
-        Invoke-WebRequest https://raw.githubusercontent.com/dicky-alfansyah/RDP/main/NGROK-CHECK.bat -OutFile NGROK-CHECK.bat
-        Invoke-WebRequest https://raw.githubusercontent.com/dicky-alfansyah/RDP/main/loop.bat -OutFile loop.bat
     - name: Make YML file for NGROK.
-      run: start NGROK-US.bat
+      run: start NGROK-AP.bat
     - name: Enable RDP Access.
       run: | 
         Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server'-name "fDenyTSConnections" -Value 0
@@ -37,5 +29,5 @@ jobs:
       run: sc start ngrok
     - name: Connect to your RDP 2core-7GB Ram.
       run: cmd /c NGROK-CHECK.bat
-    - name: All Done! Join my TeleGram Channel for more tricks.
+    - name: All Done! You can close Tab now! Maximum VM time:6h.
       run: cmd /c loop.bat 
